@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: redmine
+    restart: always
+  redmine:
+    image: redmine
+    volumes:
+      - files:/usr/src/redmine/files
+    ports:
+      - "3000:3000"
+    environment:
+      REDMINE_DB_MYSQL: mysql
+      REDMINE_DB_PASSWORD: password
+    links:
+      - mysql:mysql
+
+volumes:
+  data:
+  files:
